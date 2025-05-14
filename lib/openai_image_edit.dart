@@ -4,6 +4,9 @@ import 'dart:convert';
 import 'dart:typed_data';
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
+import 'package:openai_image_edit/parameters/api_request_parameters.dart';
+import 'package:openai_image_edit/parameters/openai_model.dart';
+import 'package:openai_image_edit/parameters/size_model.dart';
 
 class OpenAIImageEditClient {
   final String apiKey;
@@ -15,9 +18,10 @@ class OpenAIImageEditClient {
   Future<List<Uint8List>> generateImage({
     required String prompt,
     int n = 1,
-    String size = '1024x1024',
+    OpenAIImageSize size = OpenAIImageSize.auto,
+    OpenAIModel model = OpenAIModel.gpt_image_1,
   }) async {
-    final uri = Uri.parse('https://api.openai.com/v1/images/generations');
+    final uri = Uri.parse(ApiRequestParameters.generateImageUrl);
 
     final response = await _http.post(
       uri,
@@ -26,11 +30,10 @@ class OpenAIImageEditClient {
         'Content-Type': 'application/json',
       },
       body: jsonEncode({
-        'model': 'gpt-image-1',
+        'model': model.value,
         'prompt': prompt,
         'n': n,
-        'size': size,
-        'response_format': 'b64_json',
+        'size': size.value
       }),
     );
 
@@ -50,13 +53,16 @@ class OpenAIImageEditClient {
   Future<List<Uint8List>> editImages({
     required List<Uint8List> images,
     required String prompt,
+    OpenAIImageSize size = OpenAIImageSize.auto,
+    OpenAIModel model = OpenAIModel.gpt_image_1,
   }) async {
-    final uri = Uri.parse('https://api.openai.com/v1/images/edits');
+    final uri = Uri.parse(ApiRequestParameters.editImageUrl);
 
     final request = http.MultipartRequest('POST', uri)
       ..headers['Authorization'] = 'Bearer $apiKey'
-      ..fields['model'] = 'gpt-image-1'
-      ..fields['prompt'] = prompt;
+      ..fields['model'] = model.toString()
+      ..fields['prompt'] = prompt
+      ..fields['size'] = size.toString();
 
     for (int i = 0; i < images.length; i++) {
       request.files.add(

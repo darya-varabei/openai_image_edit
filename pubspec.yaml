@@ -1,7 +1,10 @@
 name: openai_image_edit
 description: "OpenAI image generation and edit package using gpt-image-1 model"
+publish_to: https://pub.dev
 version: 0.0.1
-homepage:
+license: MIT
+homepage: https://github.com/darya-varabei/openai_image_edit
+repository: https://github.com/darya-varabei/openai_image_edit
 
 environment:
   sdk: ^3.6.2

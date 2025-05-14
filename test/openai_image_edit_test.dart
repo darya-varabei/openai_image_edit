@@ -16,18 +16,13 @@ void main() {
       final response = {
         "created": 1713833628,
         "data": [
-          {
-            "b64_json": base64Encode(utf8.encode("FAKE_IMAGE_DATA"))
-          }
+          {"b64_json": base64Encode(utf8.encode("FAKE_IMAGE_DATA"))}
         ],
         "usage": {
           "total_tokens": 100,
           "input_tokens": 50,
           "output_tokens": 50,
-          "input_tokens_details": {
-            "text_tokens": 10,
-            "image_tokens": 40
-          }
+          "input_tokens_details": {"text_tokens": 10, "image_tokens": 40}
         }
       };
       return http.Response(jsonEncode(response), 200);
@@ -38,15 +33,15 @@ void main() {
     final imageBytes = await loadImageAsBytes('sunset_image.png');
 
     final imageData = await client.editImages(
-      prompt: "Make the image more futuristic", images: [imageBytes], size: OpenAIImageSize.x1536x1024
-    );
+        prompt: "Make the image more futuristic",
+        images: [imageBytes],
+        size: OpenAIImageSize.x1536x1024);
 
-      if (imageData.isNotEmpty) {
-        await saveImage(imageData.first);
-      } else {
-        print('No image was returned.');
-      }
-
+    if (imageData.isNotEmpty) {
+      await saveImage(imageData.first);
+    } else {
+      print('No image was returned.');
+    }
 
     expect(imageData, isNotNull);
     expect(imageData.first, isA<List<int>>());
@@ -61,7 +56,8 @@ Future<Uint8List> loadImageAsBytes(String fileName) async {
   return await file.readAsBytes();
 }
 
-Future<void> saveImage(Uint8List imageBytes, {String fileName = 'generated_image.png'}) async {
+Future<void> saveImage(Uint8List imageBytes,
+    {String fileName = 'generated_image.png'}) async {
   final directory = Directory.current.path;
   final filePath = '$directory/$fileName';
   final file = File(filePath);

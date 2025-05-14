@@ -29,12 +29,8 @@ class OpenAIImageEditClient {
         'Authorization': 'Bearer $apiKey',
         'Content-Type': 'application/json',
       },
-      body: jsonEncode({
-        'model': model.value,
-        'prompt': prompt,
-        'n': n,
-        'size': size.value
-      }),
+      body: jsonEncode(
+          {'model': model.value, 'prompt': prompt, 'n': n, 'size': size.value}),
     );
 
     if (response.statusCode != 200) {

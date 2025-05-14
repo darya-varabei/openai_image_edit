@@ -10,4 +10,3 @@ enum OpenAIImageSize {
   @override
   String toString() => value;
 }
-

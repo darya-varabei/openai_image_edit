@@ -1,7 +1,6 @@
 name: openai_image_edit
 description: "OpenAI image generation and edit package using gpt-image-1 model"
-publish_to: https://pub.dev
-version: 0.0.1
+version: 0.0.2
 license: MIT
 homepage: https://github.com/darya-varabei/openai_image_edit
 repository: https://github.com/darya-varabei/openai_image_edit
@@ -14,9 +13,9 @@ dependencies:
   flutter:
     sdk: flutter
 
-  http: ^0.13.5
-  mime: ^1.0.4
-  http_parser: ^4.0.2
+  http: ^0.13.6
+  mime: ^1.0.6
+  http_parser: ^4.1.2
 
 dev_dependencies:
   flutter_test:

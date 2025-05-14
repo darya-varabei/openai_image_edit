@@ -1,39 +1,125 @@
-<!--
-This README describes the package. If you publish this package to pub.dev,
-this README's contents appear on the landing page for your package.
+# 🎨 openai_image_edit
 
-For information about how to write a good package README, see the guide for
-[writing package pages](https://dart.dev/tools/pub/writing-package-pages).
+A minimal and flexible Flutter package to interact with OpenAI’s `gpt-image-1` model for **image editing** and **generation**, using natural language prompts and one or more image inputs.
 
-For general information about developing packages, see the Dart guide for
-[creating packages](https://dart.dev/guides/libraries/create-packages)
-and the Flutter guide for
-[developing packages and plugins](https://flutter.dev/to/develop-packages).
--->
+![License: MIT](https://img.shields.io/badge/license-MIT-yellow.svg)
 
-TODO: Put a short description of the package here that helps potential users
-know whether this package might be useful for them.
+---
 
-## Features
+## ✨ Features
 
-TODO: List what your package can do. Maybe include images, gifs, or videos.
+- 🧠 Interact with `gpt-image-1` for **smart image editing**
+- 🖼️ Generate new images from text prompts
+- 📦 Easy integration with `http`, `dio`, or other networking tools
+- 🧪 Typed responses and `base64` decoding included
+- 🔐 Works with your OpenAI API key
 
-## Getting started
+---
 
-TODO: List prerequisites and provide or point to information on how to
-start using the package.
+## 🚀 Getting Started
 
-## Usage
+### 1. Add Dependency
 
-TODO: Include short and useful examples for package users. Add longer examples
-to `/example` folder.
+In your `pubspec.yaml`:
 
-```dart
-const like = 'sample';
+```yaml
+dependencies:
+  openai_image_edit: ^0.0.1
 ```
 
-## Additional information
+Then run:
 
-TODO: Tell users more about the package: where to find more information, how to
-contribute to the package, how to file issues, what response they can expect
-from the package authors, and more.
+```bash
+flutter pub get
+```
+
+---
+
+## 🛠️ Usage
+
+### 🔧 Initialize the Client
+
+```dart
+final client = OpenAIImageEditClient(apiKey: 'your-api-key-here');
+```
+
+### 🧠 Image Edit Example
+
+<pre>```dart
+
+final imageBytes = await loadImageAsBytes('sunset_image.png');
+
+final imageData = await client.editImages(
+prompt: "Make the image more futuristic",
+images: [imageBytes],
+size: OpenAIImageSize.x1536x1024);
+
+if (imageData.isNotEmpty) {
+  await saveImage(imageData.first);
+} else {
+  print('No image was returned.');
+}
+
+```</pre>
+
+---
+
+### 🎨 Image Generation Example
+
+<pre>```dart
+
+final imageData = await client.generateImage(
+  prompt: "Draw a cat in a basket",
+  size: OpenAIImageSize.x1536x1024);
+
+if (imageData.isNotEmpty) {
+  await saveImage(imageData.first);
+} else {
+  print('No image was returned.');
+}
+
+```</pre>
+
+---
+
+## 📦 Supported Sizes
+
+```dart
+enum OpenAIImageSize {
+  x1024x1024,
+  x1536x1024,
+  x1024x1536,
+  auto
+}
+```
+
+---
+
+## 🧪 Testing
+
+You can test the core methods using:
+
+```bash
+flutter test
+```
+
+Make sure to include a valid `.env` or pass your API key securely during tests.
+
+---
+
+## 📄 License
+
+This package is released under the MIT License. See [LICENSE](LICENSE) for details.
+
+---
+
+## 💬 Contributions
+
+Feel free to open issues, PRs, or discussions! Contributions are welcome.
+
+---
+
+## 🔗 Links
+
+- [OpenAI Image API Docs](https://platform.openai.com/docs/api-reference/images)
+- [pub.dev Package](https://pub.dev/packages/openai_image_client)
